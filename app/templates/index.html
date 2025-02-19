@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Lore</title>
+    <!-- Link do Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, .card-body{
+            background-color: #201436;
+
+        }
+
+        h2,h5{
+            text-align: center;
+        }
+        
+        #title_tuto{
+            color: black;
+        }
+        h1, p, h2, h5, label{
+            color: white;
+        }
+        .list-group, .list-group-item {
+            background-color: #6f42c1;
+            color: white;
+        }
+        .btn-roxo {
+            background-color: #6f42c1;
+            color: white;
+        }
+        .footer-section {
+            margin-top: 30px;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegação -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Logo</a>
+        <div class="ml-auto">
+            <button class="btn btn-outline-primary">LOG IN</button>
+            <button class="btn btn-outline-primary">SIGN UP</button> 
+        </div>
+    </nav> -->
+
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <h1 class="text-center">Gerador de Lore</h1>
+              <!-- Passo a Passo -->
+        <div class="alert alert-info">
+            <h2 id="title_tuto">Passo a Passo de Uso</h2>
+            <ol>
+            <li>Insira o nome do jogo no campo de busca abaixo.</li>
+            <li>Clique no botão <strong>"Buscar Jogo"</strong> para enviar o formulário.</li>
+            <li>
+                Aguarde a consulta e, se encontrado, as informações do jogo aparecerão
+                em um card abaixo do formulário (nome, imagem e breve descrição).
+            </li>
+            <li>Insira o local que o Brasil se tornou, o nome do Herói e seu arqui-inimigo nos campos na direita abaixo.</li>
+            <li>Clique no botão <strong>"Gerar Lore"</strong> para gerar o texto.</li>
+            <li>
+                Se quiser gerar outra lore memezada, repita o processo!
+            </li>
+            </ol>
+        </div>
+        <div class="row">
+            <!-- Formulário à esquerda -->
+            <div class="col-md-6">
+                <form method="POST" action="/">
+                    <div class="form-group">
+                        <label for="nomeJogo">Nome do Jogo</label>
+                        <input type="text" class="form-control" id="nomeJogo" name="nomeJogo"  value="{{ game_data.name }}" placeholder="Qual o nome do jogo?">
+                    </div>
+                    <button type="submit" class="btn btn-roxo btn-block" required >Buscar jogo</button>
+                </form>
+                {% if game_data %}
+                <div class="card mt-5">
+                    <img
+                    src="{{ game_data.header_image }}"
+                    class="card-img-top"
+                    alt="{{ game_data.name }}"
+                    />
+                    <div class="card-body">
+                    <h5 class="card-title">{{ game_data.name }}</h5>
+                    <p class="card-text">
+                        {{ game_data.short_description }}
+                    </p>
+                    </div>
+                </div>
+                {% endif %}
+                
+            </div>
+
+            <!-- Área de texto à direita -->
+            <div class="col-md-6">
+                <form method="POST" action="/gera_lore">
+                    <div class="form-group">
+                        <label for="brasilVirou">O Brasil virou?</label>
+                        <input type="text" class="form-control" id="brasilVirou" name="brasilVirou" placeholder="Qual lugar o Brasil virou?" value="{{ request.form.get('brasilVirou', '') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="heroi">Herói</label>
+                        <input type="text" class="form-control" id="heroi" name="heroi" placeholder="Qual o herói?" value="{{ request.form.get('heroi', '') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arquiInimigo">Arqui-inimigo</label>
+                        <input type="text" class="form-control" id="arquiInimigo" name="arquiInimigo" placeholder="Qual o nome do arqui-inimigo?" value="{{ request.form.get('arquiInimigo', '') }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-roxo btn-block">Gerar Lore</button>
+                </form>
+
+                {% if game_lore %}
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Local:  {{ game_lore.place }}</li>
+                            <li class="list-group-item">Herói:  {{ game_lore.hero }}</li>
+                            <li class="list-group-item">Arqui-inimigo:  {{ game_lore.enemy }}</li>
+                        </ul>
+                    <h5 class="card-title">Lore</h5>
+                    <p class="card-text"> {{ game_lore.lore }}</p>
+                    {% endif %} 
+                   </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <!-- <div class="footer-section">
+        <h3>Sobre</h3>
+        <hr>
+    </div> -->
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
