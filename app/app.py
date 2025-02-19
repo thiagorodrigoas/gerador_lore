@@ -66,4 +66,4 @@ if __name__ == '__main__':
     app = MyFlaskApp()
     if not os.path.exists(DB_PATH):
         initialize_database()
-    app.run()
+    app.run(host="0.0.0.0", debug=True)
