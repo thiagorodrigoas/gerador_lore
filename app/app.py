@@ -3,7 +3,7 @@ from services.steam_service import get_game_description
 from services.groq_service import generate_lore
 from models.database import save_lore, get_lore, initialize_database, DB_PATH
 import os
-
+ 
 class MyFlaskApp:
     def __init__(self):
         # Inicializa a aplicação do Flask
